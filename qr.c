@@ -64,6 +64,8 @@ int qr_thread() {
   qr = quirc_new();
   quirc_resize(qr, CAM_WIDTH, CAM_HEIGHT);
   qr_next = 1;
+  qr_scanned = 0;
+  memset(last_qr, 0, MAX_QR_LENGTH);
   while (1) {
     sceKernelDelayThread(10);
     if (qr_next == 0 && qr_scanned == 0) {
@@ -74,7 +76,8 @@ int qr_thread() {
       int i;
       for (i = 0; i < w*h; i++) {
         colourRGBA = qr_data[i];
-        image[i] = ((colourRGBA & 0x000000FF) + ((colourRGBA & 0x0000FF00) >> 8) + ((colourRGBA & 0x00FF0000) >> 16)) / 3;
+        image[i] = MIN( MIN((colourRGBA & 0x000000FF), (colourRGBA & 0x0000FF00)), (colourRGBA & 0x00FF0000));
+//        image[i] = ((colourRGBA & 0x000000FF) + ((colourRGBA & 0x0000FF00) >> 8) + ((colourRGBA & 0x00FF0000) >> 16)) / 3;
       }
       quirc_end(qr);
       int num_codes = quirc_count(qr);
@@ -90,6 +93,7 @@ int qr_thread() {
           memcpy(last_qr, data.payload, data.payload_len);
           last_qr_len = data.payload_len;
           qr_scanned = 1;
+          break;
         }
       } else {
         memset(last_qr, 0, MAX_QR_LENGTH);
@@ -115,7 +119,7 @@ int qr_scan_thread(SceSize args, void *argp) {
   }
   
   initMessageDialog(SCE_MSG_DIALOG_BUTTON_TYPE_NONE, language_container[PLEASE_WAIT]);
-  
+
   // check for attached file
   const char *headerData;
   unsigned int headerLen;
@@ -201,7 +205,7 @@ int qr_scan_thread(SceSize args, void *argp) {
     // VPK type
     vpk = getFileType(fileName) == FILE_TYPE_VPK;
   }
-  
+
   if (vpk)
     initMessageDialog(SCE_MSG_DIALOG_BUTTON_TYPE_YESNO, language_container[QR_CONFIRM_INSTALL], data, fileName, sizeString);
   else

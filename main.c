@@ -951,6 +951,7 @@ int dialogSteps() {
       if (msg_result == MESSAGE_DIALOG_RESULT_FINISHED) {
         setDialogStep(DIALOG_STEP_QR_WAITING);
         stopQR();
+        finishQR();
         SceUID thid = sceKernelCreateThread("qr_scan_thread", (SceKernelThreadEntry)qr_scan_thread, 0x10000100, 0x100000, 0, 0, NULL);
         if (thid >= 0)
           sceKernelStartThread(thid, 0, NULL);

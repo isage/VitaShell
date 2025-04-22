@@ -372,7 +372,6 @@ void initVitaShell() {
   initVita2dLib();
   initSceAppUtil();
   initNet();
-  initQR();
   initSQLite();
 
   // Init power tick thread
@@ -437,7 +436,6 @@ void finishVitaShell() {
   finishNet();
   finishSceAppUtil();
   finishVita2dLib();
-  finishQR();
   vitaAudioShutdown();
   
   // Unload modules
