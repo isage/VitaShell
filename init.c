@@ -288,11 +288,6 @@ static void initNet() {
   sceNetInit(&param);
   sceNetCtlInit();
 
-  sceSslInit(300 * 1024);
-  sceHttpInit(40 * 1024);
-
-  sceHttpsDisableOption(SCE_HTTPS_FLAG_SERVER_VERIFY);
-
   sceNetAdhocInit();
 
   SceNetAdhocctlAdhocId adhocId;
@@ -305,8 +300,6 @@ static void initNet() {
 static void finishNet() {
   sceNetAdhocctlTerm();
   sceNetAdhocTerm();
-  sceSslTerm();
-  sceHttpTerm();
   sceNetCtlTerm();
   sceNetTerm();
   free(net_memory);
@@ -363,7 +356,6 @@ void initVitaShell() {
   sceSysmoduleLoadModule(SCE_SYSMODULE_MUSIC_EXPORT);
   sceSysmoduleLoadModule(SCE_SYSMODULE_PHOTO_EXPORT);
   sceSysmoduleLoadModule(SCE_SYSMODULE_NET);
-  sceSysmoduleLoadModule(SCE_SYSMODULE_HTTPS);
   sceSysmoduleLoadModule(SCE_SYSMODULE_PSPNET_ADHOC);
   sceSysmoduleLoadModule(SCE_SYSMODULE_SQLITE);
 
@@ -441,7 +433,6 @@ void finishVitaShell() {
   // Unload modules
   sceSysmoduleUnloadModule(SCE_SYSMODULE_SQLITE);
   sceSysmoduleUnloadModule(SCE_SYSMODULE_PSPNET_ADHOC);
-  sceSysmoduleUnloadModule(SCE_SYSMODULE_HTTPS);
   sceSysmoduleUnloadModule(SCE_SYSMODULE_NET);
   sceSysmoduleUnloadModule(SCE_SYSMODULE_PHOTO_EXPORT);
   sceSysmoduleUnloadModule(SCE_SYSMODULE_MUSIC_EXPORT);

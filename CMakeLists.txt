@@ -13,7 +13,7 @@ endif()
 project(VitaShell)
 include("${VITASDK}/share/vita.cmake" REQUIRED)
 set(VITA_APP_NAME "VitaShell")
-set(VITA_TITLEID  "VITASHELL")
+set(VITA_TITLEID  "VITASHEL2")
 set(VITA_VERSION  "02.05")
 
 # Flags and includes
@@ -157,6 +157,9 @@ add_dependencies(VitaShell usbdevice.skprx-self)
 
 target_link_libraries(VitaShell
   ${CMAKE_CURRENT_BINARY_DIR}/modules/user/libVitaShellUser_stub_weak.a
+  curl
+  ssl
+  crypto
   ftpvita
   vita2d
   vorbisfile
