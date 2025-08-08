@@ -13,7 +13,7 @@ endif()
 project(VitaShell)
 include("${VITASDK}/share/vita.cmake" REQUIRED)
 set(VITA_APP_NAME "VitaShell")
-set(VITA_TITLEID  "VITASHEL2")
+set(VITA_TITLEID  "VITASHELL")
 set(VITA_VERSION  "02.05")
 
 # Flags and includes
